@@ -6,28 +6,43 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.swing.JOptionPane;
+
 import com.mysql.cj.protocol.Resultset.Concurrency;
 public class Main {
-
+	static String url = "jdbc:mysql://localhost:3306/ejercicio base de datos ?useJDBCCompliantTimezoneShit=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	static String username = "root";
+	static String password = "";
+	static String query;
 	public static void main(String[] args) {
-		String url = "jdbc:mysql://localhost:3306/ejercicio base de datos ?useJDBCCompliantTimezoneShit=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-		String username = "root";
-		String password = "";
-		String query = "SELECT * FROM `productos` WHERE 1";
-		try (Connection con = DriverManager.getConnection(url, username, password);
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(query)) {
-			while (rs.next()) {
-				int codigo = rs.getInt("codigo");
-				int precio = rs.getInt("precio");
-				String nombre = rs.getString("nombre");
-				int categoria = rs.getInt("categoria");
-				Date fechaDeVencimiento = rs.getDate("fechaDeVencimiento");
-				System.out.println("Codigo: " + codigo + "     Precio: " + precio + "     Nombre: " + nombre + "     Categoria: " + categoria + "     Fecha de vencimiento: " + fechaDeVencimiento);
+		
+		String precioString;
+		int precioI;
+		String nombreProducto;
+		String categoria;
+		String fechaDeVencimiento;
+		
+		int opcionSwitch = 0;
+		String [] opcionesSwitch = {"Cargar productos","Ver productos","Modificar productos"}; 
+		opcionSwitch = JOptionPane.showOptionDialog(null, "Seleccione una opcion:", "Programa", opcionSwitch, JOptionPane.DEFAULT_OPTION, null, opcionesSwitch, JOptionPane.DEFAULT_OPTION);
+		switch (opcionSwitch) {
+		case 0://Cargar productos
+			
+			try (Connection con = DriverManager.getConnection(url, username, password)){
+				
+			} catch (SQLException e) {
+				System.out.println(e);
 			}
-		} catch (SQLException e) {
-			System.out.println(e);
+			break;
+		case 1://Ver productos
+			query = "SELECT * FROM `productos` WHERE 1";
+			break;
+		case 2://Modificar productos
+			query = "";
+			break;
 		}
+		
 		
 	}
 
