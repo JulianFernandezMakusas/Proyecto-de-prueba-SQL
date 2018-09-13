@@ -3,5 +3,7 @@ package com.utn.vista;
 public interface ProductoDAO {
 	public void add ();
 	public void update();
-	public void modificar();
-}
+	public void consulta();
+	public void connection();
+	public void closeConnection();
+	}

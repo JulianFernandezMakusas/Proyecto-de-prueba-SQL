@@ -11,35 +11,24 @@ import javax.swing.JOptionPane;
 
 import com.mysql.cj.protocol.Resultset.Concurrency;
 public class Main {
-	static String url = "jdbc:mysql://localhost:3306/ejercicio base de datos ?useJDBCCompliantTimezoneShit=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	static String username = "root";
-	static String password = "";
-	static String query;
 	public static void main(String[] args) {
-		
+		ProductoDAOJBCImplements metodos = new ProductoDAOJBCImplements();
 		String precioString;
 		int precioI;
 		String nombreProducto;
-		String categoria;
 		String fechaDeVencimiento;
-		
 		int opcionSwitch = 0;
 		String [] opcionesSwitch = {"Cargar productos","Ver productos","Modificar productos"}; 
 		opcionSwitch = JOptionPane.showOptionDialog(null, "Seleccione una opcion:", "Programa", opcionSwitch, JOptionPane.DEFAULT_OPTION, null, opcionesSwitch, JOptionPane.DEFAULT_OPTION);
 		switch (opcionSwitch) {
 		case 0://Cargar productos
-			
-			try (Connection con = DriverManager.getConnection(url, username, password)){
-				
-			} catch (SQLException e) {
-				System.out.println(e);
-			}
+			metodos.add();
 			break;
 		case 1://Ver productos
-			query = "SELECT * FROM `productos` WHERE 1";
+			metodos.consulta();
 			break;
 		case 2://Modificar productos
-			query = "";
+			metodos.update();
 			break;
 		}
 		
