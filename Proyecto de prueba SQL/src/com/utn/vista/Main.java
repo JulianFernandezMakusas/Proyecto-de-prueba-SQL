@@ -12,23 +12,24 @@ import javax.swing.JOptionPane;
 import com.mysql.cj.protocol.Resultset.Concurrency;
 public class Main {
 	public static void main(String[] args) {
-		ProductoDAOJBCImplements metodos = new ProductoDAOJBCImplements();
-		String precioString;
-		int precioI;
-		String nombreProducto;
-		String fechaDeVencimiento;
+		String precioString = null;
+		int precioI = 0;
+		String nombreProducto = null;
+		String fechaDeVencimiento = null;
 		int opcionSwitch = 0;
-		String [] opcionesSwitch = {"Cargar productos","Ver productos","Modificar productos"}; 
+		String [] opcionesSwitch = {"Añadir productos","Consulta","Modificar productos"}; 
 		opcionSwitch = JOptionPane.showOptionDialog(null, "Seleccione una opcion:", "Programa", opcionSwitch, JOptionPane.DEFAULT_OPTION, null, opcionesSwitch, JOptionPane.DEFAULT_OPTION);
+		String categoria = null;
+		ProductoDAO productoDAO = ((ProductoDAOFactory) new ProductoDAOFactory()).createProductoDAO();
 		switch (opcionSwitch) {
 		case 0://Cargar productos
-			metodos.add();
+			productoDAO.add();
 			break;
 		case 1://Ver productos
-			metodos.consulta();
+			productoDAO.consulta();
 			break;
 		case 2://Modificar productos
-			metodos.update();
+			productoDAO.update();
 			break;
 		}
 		

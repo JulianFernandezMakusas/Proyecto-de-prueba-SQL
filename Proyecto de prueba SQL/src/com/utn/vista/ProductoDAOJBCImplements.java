@@ -1,16 +1,20 @@
 package com.utn.vista;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
+import java.util.Locale;
 
 import javax.swing.JOptionPane;
 
+import jdk.nashorn.internal.scripts.JO;
+
 public class ProductoDAOJBCImplements implements ProductoDAO{
-	private static final Object[] options = null;
 	String url = "jdbc:mysql://localhost:3306/ejercicio base de datos ?useJDBCCompliantTimezoneShit=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	String username = "root";
 	String password = "";
@@ -21,6 +25,7 @@ public class ProductoDAOJBCImplements implements ProductoDAO{
 	String [] categoriaLista = {"null","Limpieza","Comestible"};
 	String fechaDeVencimiento;
 	String query;
+	int idProducto;
 	Connection coneccion = null;
 	@Override
 	public void add() {
@@ -28,7 +33,7 @@ public class ProductoDAOJBCImplements implements ProductoDAO{
 		precioI= Integer.parseInt(precioString);
 		nombreProducto = JOptionPane.showInputDialog("Ingresa el nombre de tu producto");
 		categoria = JOptionPane.showOptionDialog(null, "Seleccione una opcion:", "Programa", categoria, JOptionPane.DEFAULT_OPTION, null, categoriaLista, 0);
-		fechaDeVencimiento = JOptionPane.showInputDialog("Ingrese la fecha en el siguiente formato: Año-Mes-Dia");
+		fechaDeVencimiento = JOptionPane.showInputDialog("Ingrese la fecha de vencimiento en el siguiente formato: Año-Mes-Dia");
 		query = "INSERT INTO `productos` (`precio`, `nombre`, `categoria`, `fechaDeVencimiento`) VALUES  (?,?,?,?)";
 		connection();
 		try {
@@ -46,8 +51,70 @@ public class ProductoDAOJBCImplements implements ProductoDAO{
 	
 	@Override
 	public void update() {
-		
-		query = "";
+		String [] listaOpciones = {"Precio","Nombre","Categoria","Fecha de vencimiento"};
+		String idProductoString = JOptionPane.showInputDialog("Ingrese el ID del producto que va a editar:");
+		int idProducto = Integer.parseInt(idProductoString);
+		int opciones = 0;
+		opciones = JOptionPane.showOptionDialog(null, "Seleccione el dato que desea editar:", "Programa", opciones, JOptionPane.DEFAULT_OPTION, null, listaOpciones, 0);
+		switch (opciones) {
+		case 0://Precio
+			precioString = JOptionPane.showInputDialog("Ingrese el precio que desea ponerle al producto:");
+			precioI = Integer.parseInt(precioString);
+			query = "UPDATE `productos` SET `precio` = ? WHERE codigo = ?";
+			connection();
+			try {
+				PreparedStatement ps = coneccion.prepareStatement(query);
+				ps.setInt(1, precioI);
+				ps.setInt(2, idProducto);
+				ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			closeConnection();
+			break;
+		case 1://Nombre
+			nombreProducto = JOptionPane.showInputDialog("Ingrese el nombre que le desea poner al producto:");
+			query = "UPDATE `productos` SET `nombre` = ? WHERE codigo = ?";
+			connection();
+			try {
+				PreparedStatement ps = coneccion.prepareStatement(query);
+				ps.setString(1, nombreProducto);
+				ps.setInt(2, idProducto);
+				ps.executeUpdate();
+			}catch (SQLException e) {
+				e.printStackTrace();
+			}
+			closeConnection();
+			break;
+		case 2://Categoria
+			categoria = JOptionPane.showOptionDialog(null, "Seleccione una opcion:", "Programa", categoria, JOptionPane.DEFAULT_OPTION, null, categoriaLista, 0);
+			query = "UPDATE `productos` SET `categoria`= ? WHERE codigo = ?";
+			connection();
+			try {
+				PreparedStatement ps = coneccion.prepareStatement(query);
+				ps.setInt(1, categoria);
+				ps.setInt(2, idProducto);
+				ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			closeConnection();
+			break;
+		case 3://Fecha de vencimiento
+			fechaDeVencimiento = JOptionPane.showInputDialog("Ingrese la fecha de vencimiento en el siguiente formato: Año-Mes-Dia");
+			query = "UPDATE `productos` SET `fechaDeVencimiento`= ? WHERE codigo = ?";
+			connection();
+			try {
+				PreparedStatement ps = coneccion.prepareStatement(query);
+				ps.setString(1, fechaDeVencimiento);
+				ps.setInt(2, idProducto);
+				ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			closeConnection();
+			break;
+		}
 	}
 
 	@Override
@@ -57,15 +124,12 @@ public class ProductoDAOJBCImplements implements ProductoDAO{
 		try {
 			PreparedStatement ps = coneccion.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
-			if (query.equals("SELECT * FROM `productos` WHERE 1")) {
-				while (rs.next()) {
-					int codigo = rs.getInt("codigo");
-					int precio = rs.getInt("precio");
-					String nombre = rs.getString("nombre");
-					int categoria = rs.getInt("categoria");
-					Date fechaDeVencimiento = rs.getDate("fechaDeVencimiento");
-					JOptionPane.showMessageDialog(null, "Codigo: " + codigo + "     Precio: " + precio + "     Nombre: " + nombre + "     Categoria: " + categoria + "     Fecha de vencimiento: " + fechaDeVencimiento, "Prograna", JOptionPane.DEFAULT_OPTION);
-				}				
+			while (rs.next()) {
+				JOptionPane.showMessageDialog(null, rs.getString("nombre"));
+				JOptionPane.showMessageDialog(null, rs.getInt("codigo"));
+				JOptionPane.showMessageDialog(null, rs.getInt("precio"));				
+				JOptionPane.showMessageDialog(null, rs.getString("categoria"));
+				JOptionPane.showMessageDialog(null, rs.getString("fechaDeVencimiento"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -90,5 +154,8 @@ public class ProductoDAOJBCImplements implements ProductoDAO{
 			e.printStackTrace();
 		}
 	}
-	
+		public String getCredentials() {
+			return "UPC ".concat(Base64.getEncoder().encodeToString(username.concat(":").concat(password).getBytes(StandardCharsets.UTF_8)));
+		}
+
 }
