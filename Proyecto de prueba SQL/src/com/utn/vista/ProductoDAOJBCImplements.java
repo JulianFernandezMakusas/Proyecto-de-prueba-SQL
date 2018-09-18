@@ -17,7 +17,7 @@ import jdk.nashorn.internal.scripts.JO;
 public class ProductoDAOJBCImplements implements ProductoDAO{
 	String url = "jdbc:mysql://localhost:3306/ejercicio base de datos ?useJDBCCompliantTimezoneShit=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	String username = "root";
-	String password = "";
+	String password = "123";
 	String precioString;
 	int precioI;
 	String nombreProducto;
@@ -28,20 +28,15 @@ public class ProductoDAOJBCImplements implements ProductoDAO{
 	int idProducto;
 	Connection coneccion = null;
 	@Override
-	public void add() {
-		precioString = JOptionPane.showInputDialog("ingresa el precio de el producto");
-		precioI= Integer.parseInt(precioString);
-		nombreProducto = JOptionPane.showInputDialog("Ingresa el nombre de tu producto");
-		categoria = JOptionPane.showOptionDialog(null, "Seleccione una opcion:", "Programa", categoria, JOptionPane.DEFAULT_OPTION, null, categoriaLista, 0);
-		fechaDeVencimiento = JOptionPane.showInputDialog("Ingrese la fecha de vencimiento en el siguiente formato: Año-Mes-Dia");
-		query = "INSERT INTO `productos` (`precio`, `nombre`, `categoria`, `fechaDeVencimiento`) VALUES  (?,?,?,?)";
+	public void add(Producto producto) {
 		connection();
 		try {
+			query = "INSERT INTO `productos` (`precio`, `nombre`, `categoria`, `fechaDeVencimiento`) VALUES  (?,?,?,?)";
 			PreparedStatement ps = coneccion.prepareStatement(query);
-			ps.setInt(1, precioI);
-			ps.setString(2, nombreProducto);
-			ps.setInt(3, categoria);
-			ps.setString(4, fechaDeVencimiento);
+			ps.setInt(1, producto.getPrecioI());
+			ps.setString(2, producto.getNombreProducto());
+			ps.setInt(3, producto.getCategoria());
+			ps.setString(4, producto.getFechaDeVencimiento());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -119,7 +114,7 @@ public class ProductoDAOJBCImplements implements ProductoDAO{
 
 	@Override
 	public void consulta() {
-		query = JOptionPane.showInputDialog("Ingrese la consulta: ");
+		query = "SELECT * FROM `productos` ";
 		connection();
 		try {
 			PreparedStatement ps = coneccion.prepareStatement(query);
@@ -157,5 +152,7 @@ public class ProductoDAOJBCImplements implements ProductoDAO{
 		public String getCredentials() {
 			return "UPC ".concat(Base64.getEncoder().encodeToString(username.concat(":").concat(password).getBytes(StandardCharsets.UTF_8)));
 		}
+
+
 
 }

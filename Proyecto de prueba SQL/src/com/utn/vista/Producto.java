@@ -1,17 +1,10 @@
 package com.utn.vista;
 
 public class Producto {
-	private String precioString;
 	private int precioI;
 	private String nombreProducto;
-	private String categoria;
+	private int categoria;
 	private String fechaDeVencimiento;
-	public String getPrecioString() {
-		return precioString;
-	}
-	public void setPrecioString(String precioString) {
-		this.precioString = precioString;
-	}
 	public int getPrecioI() {
 		return precioI;
 	}
@@ -24,10 +17,10 @@ public class Producto {
 	public void setNombreProducto(String nombreProducto) {
 		this.nombreProducto = nombreProducto;
 	}
-	public String getCategoria() {
+	public int getCategoria() {
 		return categoria;
 	}
-	public void setCategoria(String categoria) {
+	public void setCategoria(int categoria) {
 		this.categoria = categoria;
 	}
 	public String getFechaDeVencimiento() {
@@ -38,13 +31,12 @@ public class Producto {
 	}
 	@Override
 	public String toString() {
-		return "Producto [precioString=" + precioString + ", precioI=" + precioI + ", nombreProducto=" + nombreProducto
+		return "Producto" + ", precioI=" + precioI + ", nombreProducto=" + nombreProducto
 				+ ", categoria=" + categoria + ", fechaDeVencimiento=" + fechaDeVencimiento + "]";
 	}
-	public Producto(String precioString, int precioI, String nombreProducto, String categoria,
+	public Producto(int precioI, String nombreProducto, int categoria,
 			String fechaDeVencimiento) {
 		super();
-		this.precioString = precioString;
 		this.precioI = precioI;
 		this.nombreProducto = nombreProducto;
 		this.categoria = categoria;
