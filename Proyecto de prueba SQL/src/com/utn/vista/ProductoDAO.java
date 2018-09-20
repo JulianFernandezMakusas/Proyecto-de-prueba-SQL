@@ -6,4 +6,5 @@ public interface ProductoDAO {
 	public void consulta();
 	public void connection();
 	public void closeConnection();
+	public String codificarPassword();
 	}

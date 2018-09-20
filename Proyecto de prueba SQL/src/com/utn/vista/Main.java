@@ -21,9 +21,10 @@ public class Main {
 		String [] categoriaLista = {"null","Limpieza","Comestible"};
 		String query;
 		int idProducto;
-		String [] opcionesSwitch = {"Añadir productos","Consulta","Modificar productos"}; 
+		String [] opcionesSwitch = {"Añadir productos","Ver Productos","Modificar productos"}; 
 		opcionSwitch = JOptionPane.showOptionDialog(null, "Seleccione una opcion:", "Programa", opcionSwitch, JOptionPane.DEFAULT_OPTION, null, opcionesSwitch, JOptionPane.DEFAULT_OPTION);
 		ProductoDAO productoDAO = ((ProductoDAOFactory) new ProductoDAOFactory()).createProductoDAO();
+		productoDAO.codificarPassword();
 		switch (opcionSwitch) {
 		case 0://Cargar productos
 			precioString = JOptionPane.showInputDialog("ingresa el precio de el producto");
@@ -35,10 +36,10 @@ public class Main {
 			productoDAO.add(productoAdd);
 			break;
 		case 1://Ver productos
-			
 			productoDAO.consulta();
 			break;
 		case 2://Modificar productos
+			
 			productoDAO.update();
 			break;
 		}

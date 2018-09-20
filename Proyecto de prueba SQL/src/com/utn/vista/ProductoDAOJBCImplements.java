@@ -1,6 +1,10 @@
 package com.utn.vista;
 
+import java.io.ObjectInputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -149,10 +153,23 @@ public class ProductoDAOJBCImplements implements ProductoDAO{
 			e.printStackTrace();
 		}
 	}
-		public String getCredentials() {
-			return "UPC ".concat(Base64.getEncoder().encodeToString(username.concat(":").concat(password).getBytes(StandardCharsets.UTF_8)));
+	public String codificarPassword () {
+		Path file = Paths.get("C:\\Users\\Raul\\Desktop\\Proyecto de prueba SQL\\ResourceBundle_Credenciales.properties");
+		ObjectInputStream in;
+		try {
+			in = new ObjectInputStream(Files.newInputStream(file));
+			StringBuilder password = (StringBuilder) in.readObject();
+			StringBuilder tmp = new StringBuilder();
+			final int OFFSET = 4;
+			for (int i = 0; i < password.length(); i++) {
+				tmp.append((char) (password.charAt(i) - OFFSET));
+			}
+			String reversed = new StringBuffer(tmp.toString()).reverse().toString();
+			return new String(Base64.getDecoder().decode(reversed));		
+		}catch (Exception e) {
+			// TODO: handle exception
 		}
-
-
-
+		return null;
+		
+	}
 }
