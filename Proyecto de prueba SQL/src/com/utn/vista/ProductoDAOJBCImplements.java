@@ -24,6 +24,7 @@ public class ProductoDAOJBCImplements implements ProductoDAO {
 	String password = "123";
 	String query;
 	Connection coneccion = null;
+
 	@Override
 	public void add(Producto productoAdd) {
 		connection();
@@ -40,6 +41,7 @@ public class ProductoDAOJBCImplements implements ProductoDAO {
 		}
 		closeConnection();
 	}
+
 	@Override
 	public int update(Producto update) {
 		int cantFilasUpdate = 0;
@@ -58,6 +60,7 @@ public class ProductoDAOJBCImplements implements ProductoDAO {
 		closeConnection();
 		return cantFilasUpdate;
 	}
+
 	@Override
 	public void consulta() {
 		query = "SELECT * FROM `productos` ";
@@ -65,6 +68,7 @@ public class ProductoDAOJBCImplements implements ProductoDAO {
 		try {
 			PreparedStatement ps = coneccion.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
+			// abstraerlo y guardarlo en un array de objetos
 			while (rs.next()) {
 				JOptionPane.showMessageDialog(null, rs.getString("nombre"));
 				JOptionPane.showMessageDialog(null, rs.getInt("codigo"));
@@ -77,6 +81,7 @@ public class ProductoDAOJBCImplements implements ProductoDAO {
 		}
 		closeConnection();
 	}
+
 	@Override
 	public void connection() {
 		try {
@@ -94,9 +99,14 @@ public class ProductoDAOJBCImplements implements ProductoDAO {
 			e.printStackTrace();
 		}
 	}
+
 	public String codificarPassword() {
-
+		String passwordYUser ="Basic ".concat(Base64.getEncoder()
+				.encodeToString(username.concat(":").concat(password).getBytes(StandardCharsets.UTF_8)));
+		System.out.println(passwordYUser);
 		return null;
-
+	}
+	public String descodificarPassword() {
+		return "";
 	}
 }
