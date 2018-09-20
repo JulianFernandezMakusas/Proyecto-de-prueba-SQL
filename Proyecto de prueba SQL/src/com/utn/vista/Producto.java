@@ -5,6 +5,7 @@ public class Producto {
 	private String nombreProducto;
 	private int categoria;
 	private String fechaDeVencimiento;
+	private int idProducto;
 	public int getPrecioI() {
 		return precioI;
 	}
@@ -29,6 +30,12 @@ public class Producto {
 	public void setFechaDeVencimiento(String fechaDeVencimiento) {
 		this.fechaDeVencimiento = fechaDeVencimiento;
 	}
+	public int getIdProducto() {
+		return idProducto;
+	}
+	public void setIdProducto(int idProducto) {
+		this.idProducto = idProducto;
+	}
 	@Override
 	public String toString() {
 		return "Producto" + ", precioI=" + precioI + ", nombreProducto=" + nombreProducto
@@ -42,5 +49,14 @@ public class Producto {
 		this.categoria = categoria;
 		this.fechaDeVencimiento = fechaDeVencimiento;
 	}
+	public Producto(int precioI, String nombreProducto, int categoria, String fechaDeVencimiento, int idProducto) {
+		super();
+		this.precioI = precioI;
+		this.nombreProducto = nombreProducto;
+		this.categoria = categoria;
+		this.fechaDeVencimiento = fechaDeVencimiento;
+		this.idProducto = idProducto;
+	}
+
 	
 }

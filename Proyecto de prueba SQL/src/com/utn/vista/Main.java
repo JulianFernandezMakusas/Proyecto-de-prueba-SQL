@@ -39,8 +39,17 @@ public class Main {
 			productoDAO.consulta();
 			break;
 		case 2://Modificar productos
-			
-			productoDAO.update();
+			String idProductoString = JOptionPane.showInputDialog("Ingrese el ID del producto que va a editar:");
+			idProducto = Integer.parseInt(idProductoString);
+			precioString = JOptionPane.showInputDialog("Ingrese el precio que desea ponerle al producto:");
+			precioI = Integer.parseInt(precioString);
+			nombreProducto = JOptionPane.showInputDialog("Ingrese el nombre que desea ingresar:");
+			categoria = JOptionPane.showOptionDialog(null, "Seleccione una opcion:", "Programa", categoria, JOptionPane.DEFAULT_OPTION, null, categoriaLista, 0);
+			fechaDeVencimiento = JOptionPane.showInputDialog("Ingrese la fecha de vencimiento en el siguiente formato: Año-Mes-Dia");
+			Producto productoUpdate = new Producto (precioI,nombreProducto,categoria,fechaDeVencimiento,idProducto);
+			if (productoDAO.update(productoUpdate) == 1) {
+				JOptionPane.showMessageDialog(null, "Modificado con exito", "Programa", JOptionPane.DEFAULT_OPTION);
+			}
 			break;
 		}
 		
